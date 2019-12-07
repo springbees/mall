@@ -1,0 +1,21 @@
+{
+  "status":0,
+  "menu":
+    {"milk":{
+        "content":[
+          {"img":"../res/img/paging_img1.jpg","title":"森系小清新四件套","pri":"￥200","nub":"1266付款"},
+          {"img":"../res/img/paging_img2.jpg","title":"森系小清新四件套","pri":"￥200","nub":"1266付款"},
+          {"img":"../res/img/paging_img3.jpg","title":"森系小清新四件套","pri":"￥200","nub":"1266付款"},
+          {"img":"../res/img/paging_img1.jpg","title":"森系小清新四件套","pri":"￥200","nub":"1266付款"},
+          {"img":"../res/img/paging_img2.jpg","title":"森系小清新四件套","pri":"￥200","nub":"1266付款"},
+          {"img":"../res/img/paging_img3.jpg","title":"森系小清新四件套","pri":"￥200","nub":"1266付款"},
+          {"img":"../res/img/paging_img1.jpg","title":"森系小清新四件套","pri":"￥200","nub":"1266付款"},
+          {"img":"../res/img/paging_img2.jpg","title":"森系小清新四件套","pri":"￥200","nub":"1266付款"},
+          {"img":"../res/img/paging_img3.jpg","title":"森系小清新四件套","pri":"￥200","nub":"1266付款"},
+          {"img":"../res/img/paging_img1.jpg","title":"森系小清新四件套","pri":"￥200","nub":"1266付款"},
+          {"img":"../res/img/paging_img2.jpg","title":"森系小清新四件套","pri":"￥200","nub":"1266付款"},
+          {"img":"../res/img/paging_img3.jpg","title":"森系小清新四件套","pri":"￥200","nub":"1266付款"}
+        ]
+      }
+    }
+}

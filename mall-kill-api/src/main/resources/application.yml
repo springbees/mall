@@ -1,0 +1,28 @@
+server:
+  port: 8010
+spring:
+  application:
+    name: mall-kill
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: laiqilin
+    url: jdbc:mysql://localhost:3306/db_second_kill?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true&useSSL=false
+  thymeleaf:
+    prefix: classpath:/templates/html/
+    check-template-location: true
+    cache: false
+    suffix: .html
+    encoding: UTF-8
+    content-type: text/html
+    mode: HTML5
+
+dubbo:
+  application:            #应用配置，用于配置当前应用信息，不管该应用是提供者还是消费者。
+    name: mall-kill-consumer
+  registry:                 #注册中心配置，用于配置连接注册中心相关信息。
+    address: zookeeper://192.168.254.126:2181
+    client: zkclient
+  service:
+    version: 1.0.1 #配置Dubbo版本
+
