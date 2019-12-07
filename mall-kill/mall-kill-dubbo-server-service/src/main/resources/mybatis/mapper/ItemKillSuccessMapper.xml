@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.mlm.mall.kill.mapper.ItemKillSuccessMapper">
+    <resultMap id="BaseResultMap" type="cn.mlm.mall.kill.pojo.ItemKillSuccess">
+        <id column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="item_id" property="itemId" jdbcType="INTEGER"/>
+        <result column="kill_id" property="killId" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List" >
+    code, item_id, kill_id, user_id, status, create_time
+  </sql>
+    <!--根据秒杀活动跟用户Id查询用户的抢购数量-->
+    <!-- AND `status` IN (-1, 0)  确保用户抢购成功状态，如果失败，也可以继续抢购-->
+    <select id="countByKillUserId" resultType="int">
+        SELECT
+        COUNT(1) AS total
+        FROM
+        item_kill_success
+        WHERE
+        user_id = #{userId}
+        AND kill_id = #{killId}
+        AND `status` IN (0)
+    </select>
+    <select id="selectId" resultType="cn.mlm.mall.kill.pojo.KillSuccessUserInfo">
+        SELECT
+      a.*,
+      b.user_name,
+      b.phone,
+      b.email,
+      c.name AS itemName
+    FROM item_kill_success AS a
+      LEFT JOIN user b ON b.id = a.user_id
+      LEFT JOIN item c ON c.id = a.item_id
+    WHERE a.code = #{orderNo,jdbcType=VARCHAR}
+          AND b.is_active = 1
+    </select>
+    <insert id="insertSelective" parameterType="cn.mlm.mall.kill.pojo.ItemKillSuccess">
+        insert into item_kill_success
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="code != null">
+                code,
+            </if>
+            <if test="itemId != null">
+                item_id,
+            </if>
+            <if test="killId != null">
+                kill_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="itemId != null">
+                #{itemId,jdbcType=INTEGER},
+            </if>
+            <if test="killId != null">
+                #{killId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="expireOrder">
+      UPDATE item_kill_success
+        SET status = -1
+        WHERE code = #{code} AND status = 0
+    </update>
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from item_kill_success
+        where code = #{code,jdbcType=VARCHAR}
+    </select>
+    <select id="selectExpireOrders" resultMap="BaseResultMap">
+      SELECT
+            a.*,TIMESTAMPDIFF(MINUTE,a.create_time,NOW()) AS diffTime
+        FROM
+            item_kill_success AS a
+        WHERE
+            a.`status` = 0
+    </select>
+</mapper>

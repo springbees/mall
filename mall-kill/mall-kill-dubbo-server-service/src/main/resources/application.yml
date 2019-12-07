@@ -1,0 +1,109 @@
+server:
+  port: 8090
+spring:
+  profiles:
+    active: dev
+  application:
+    name: mall-kill
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: laiqilin
+    url: jdbc:mysql://localhost:3306/db_second_kill?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true&useSSL=false
+  rabbitmq: #配置RabbitMQ
+    host: 192.168.254.126
+    port: 5672
+    username: guest
+    password: guest
+    listener:
+      simple:
+        concurrency: 5 #初始化并发
+        max-concurrency: 15 #配置最大并发
+        prefetch: 10
+  redis: #spring整合redis配置
+    host: 192.168.254.126
+    port: 6379
+  mail: #spring-email 配置
+    host: smtp.qq.com
+    username: 1030004653@qq.com
+    password: tlnwlhoathqnbbfj
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+#redis配置
+redis:
+  config:
+    host: redis://192.168.254.126:6379
+
+dubbo:
+  application:            #应用配置，用于配置当前应用信息，不管该应用是提供者还是消费者。
+    name: mall-kill-Provide
+  registry:                 #注册中心配置，用于配置连接注册中心相关信息。
+    address: zookeeper://192.168.254.126:2181
+    client: zkclient
+  protocol:     #协议配置，用于配置提供服务的协议信息，协议由提供方指定，消费方被动接受。
+    name: dubbo
+    port: 20880
+  scan:
+    base-packages: cn.mlm.mall.kill.api #服务暴露与发现消费所在的package
+  service:
+    version: 1.0.1 #配置Dubbo版本
+mybatis-plus:
+  mapper-locations: classpath:mybatis/mapper/*Mapper.xml
+
+
+#配置Redis
+mq:
+  env: test
+  kill:  #秒杀成功异步发送邮件的消息模型
+    item:
+      success:
+        email:
+          queue: ${mq.env}.kill.item.success.email.queue #配置队列
+          exchange: ${mq.env}.kill.item.success.email.exchange #配置交换机
+          routing:
+            key: ${mq.env}.kill.item.success.email.routing.key #配置路由
+        kill: #订单超时未支付自动失效-死信队列消息模型
+          dead:
+            queue: ${mq.env}.kill.item.success.kill.dead.queue
+            exchange: ${mq.env}.kill.item.success.kill.dead.exchange
+            routing:
+              key: ${mq.env}.kill.item.success.kill.dead.routing.key
+            real: #交换机队列
+              queue: ${mq.env}.kill.item.success.kill.dead.real.queue
+            prod: #交换机
+              exchange: ${mq.env}.kill.item.success.kill.dead.prod.exchange
+              routing: #路由
+                key: ${mq.env}.kill.item.success.kill.dead.prod.routing.key
+          expire: 10000 #订单超时时间
+
+#通用配置
+system:
+  domain:
+    url: http://localhost:8010/kill
+#邮件内容配置
+mail:
+  kill:
+    item:
+      success:
+        subject: 商品抢购成功
+        content: 您好，您已成功抢购到商品:<strong style="color:red">%s</strong> ，复制该链接并在浏览器采用新的页面打开，即可查看抢购详情：<a style="color:red" href="${system.domain.url}/kill/record/detail/%s">点击连接查看抢购商品详情</a>，并请您在1个小时内完成订单的支付，超时将失效该订单哦！祝你生活愉快！
+  send:
+    from: 1030004653@qq.com
+
+#Shiro配置
+shiro:
+  encrypt:
+    password:
+      salt: 11299c42bf954c0abb373efbae3f6b26
+logging:
+  level:
+    cn.mlm.mall.kill.mapper: debug

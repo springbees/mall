@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.mlm.mall.kill.mapper.ItemKillMapper">
+    <resultMap id="BaseResultMap" type="cn.mlm.mall.kill.pojo.ItemKill">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="item_id" property="itemId" jdbcType="INTEGER"/>
+        <result column="total" property="total" jdbcType="INTEGER"/>
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP"/>
+        <result column="is_active" property="isActive" jdbcType="TINYINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="kill_price" property="killPrice" jdbcType="DECIMAL"/>
+        <result column="original_price" property="originalPrice" jdbcType="DECIMAL"/>
+        <result column="img_url" property="imgUrl" jdbcType="VARCHAR"/>
+    </resultMap>
+    <!--秒杀商品列表-->
+    <select id="getKillItems" resultType="cn.mlm.mall.kill.pojo.ItemKill">
+        SELECT
+      a.*,
+       b.name AS itemName,b.original_price AS originalPrice,b.kill_price AS KillPrice,b.img_url AS imgUrl,
+      (
+        CASE WHEN (now() BETWEEN a.start_time AND a.end_time AND a.total > 0)
+          THEN 1
+        ELSE 0
+        END
+      )      AS canKill
+    FROM item_kill AS a LEFT JOIN item AS b ON b.id = a.item_id
+    WHERE a.is_active = 1
+    </select>
+    <!--待秒杀商品详情-->
+    <select id="getKillDetail" resultType="cn.mlm.mall.kill.pojo.ItemKill">
+        SELECT
+              a.*,
+              b.name AS itemName,b.original_price AS originalPrice,b.kill_price AS KillPrice,b.img_url AS imgUrl,
+              (
+                CASE WHEN (now() BETWEEN a.start_time AND a.end_time AND a.total > 0)
+                  THEN 1
+                ELSE 0
+                END
+              ) AS canKill
+            FROM item_kill AS a LEFT JOIN item AS b ON b.id = a.item_id
+            WHERE a.is_active = 1 AND a.id= #{id}
+    </select>
+    <!--秒杀成功库存减1-->
+    <update id="updateKillItem">
+        UPDATE item_kill
+            SET total = total - 1
+            WHERE
+        id = #{killId}
+    </update>
+    <!--订单支付超时恢复库存-->
+    <update id="restoreItemInventory">
+        UPDATE item_kill
+            SET total = total + 1
+            WHERE
+        item_id = #{itemId}
+    </update>
+</mapper>
