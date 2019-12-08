@@ -5,6 +5,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
+ * @author linSir
  * @Class class file creation author：jakclinsir
  * @DATE 2019/12/3 20:33
  * 发布dubbo服务
@@ -14,8 +15,14 @@ public class ApiIKillServiceImpl implements ApiIKillService {
 
     @Autowired
     private IKillService iKillService;
+
     @Override
     public Boolean killItem(Integer killId, Integer userId) {
-        return iKillService.killItem( killId, userId);
+        return iKillService.killItem(killId, userId);
+    }
+
+    @Override
+    public Boolean killItemV2(Integer killId, Integer userId) {
+        return iKillService.killItemV2(killId, userId);
     }
 }

@@ -7,4 +7,6 @@ package cn.mlm.mall.kill.service;
  */
 public interface IKillService {
     Boolean killItem(Integer killId, Integer userId);
+    Boolean killItemV2(Integer killId, Integer userId);
+
 }

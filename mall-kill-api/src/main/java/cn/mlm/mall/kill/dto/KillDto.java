@@ -12,7 +12,6 @@ import javax.validation.constraints.NotNull;
 public class KillDto {
     @NotNull
     private Integer killId;
-
     /**
      * 默认是从session获取
      */

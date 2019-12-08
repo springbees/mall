@@ -55,4 +55,23 @@
             WHERE
         item_id = #{itemId}
     </update>
+    <!-- selectByIdV2 秒杀商品优化 防止商品超卖，通过控制total>0-->
+    <select id="selectByIdV2" resultMap="BaseResultMap">
+        SELECT
+	a.*,
+	b.NAME AS itemName,
+	( CASE WHEN ( now( ) BETWEEN a.start_time AND a.end_time ) THEN 1 ELSE 0 END ) AS canKill
+FROM
+	item_kill AS a
+	LEFT JOIN item AS b ON b.id = a.item_id
+WHERE
+	a.is_active = 1
+	AND a.id = #{killId} AND a.total>0
+    </select>
+    <!--    优化库存更新-->
+    <update id="updateKillItemV2">
+             UPDATE item_kill
+        SET total = total - 1
+        WHERE id = #{killId} AND total>0
+    </update>
 </mapper>

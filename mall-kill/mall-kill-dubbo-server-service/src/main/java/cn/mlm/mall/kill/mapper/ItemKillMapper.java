@@ -40,4 +40,18 @@ public interface ItemKillMapper extends BaseMapper<ItemKill> {
     int updateKillItem(@Param("killId") Integer killId);
 
     int restoreItemInventory(@Param("itemId") Integer itemId);
+
+    /**
+     * 秒杀商品详情数据库优化
+     * @param killId
+     * @return
+     */
+    ItemKill selectByIdV2(@Param("killId")Integer killId);
+
+    /**
+     * 更新商品库存数量，保证数据库total大于0才更新
+     * @param killId
+     * @return
+     */
+    int updateKillItemV2(@Param("killId")Integer killId);
 }

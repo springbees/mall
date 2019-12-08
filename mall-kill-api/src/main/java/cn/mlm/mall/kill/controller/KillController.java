@@ -79,4 +79,30 @@ public class KillController {
         return "fail";
     }
 
+
+    /**
+     * 订单秒杀方法
+     *
+     * @return
+     */
+    @RequestMapping(value = "/jmeterKillExecute", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public CommonResult killExecuteJmeter(@RequestBody @Validated KillDto dto, BindingResult result, HttpSession session) {
+        log.info("请求参数- {}", dto);
+        if (result.hasErrors() || dto.getKillId() <= 0) {
+            //参数校验失败
+            return CommonResult.failed(VALIDATE_FAILED);
+        }
+        try {
+            //传入用户秒杀商品ID和用户ID
+            Boolean res = killService.killItemV2(dto.getKillId(), dto.getUserId());
+            if (!res) {
+                //抢购失败
+                return CommonResult.failed(KILL_FAILED);
+            }
+        } catch (Exception e) {
+            return CommonResult.failed(e.getMessage());
+        }
+        return CommonResult.success(null, "抢购成功！");
+    }
 }

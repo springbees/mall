@@ -33,7 +33,6 @@ public class SchedulerService {
      */
     @Scheduled(cron = "0/30 * * * * ?")
     public void schedulerExpireOrders() {
-        logger.info("定时任务----1");
         logger.info("定时获取status=0的订单并判断是否超过TTL时间执行");
         try {
             List<ItemKillSuccess> list = itemKillSuccessMapper.selectExpireOrders();
@@ -52,7 +51,7 @@ public class SchedulerService {
         }
     }
 
-    @Scheduled(cron = "0/20 * * * * ?")
+   /* @Scheduled(cron = "0/20 * * * * ?")
     public void scheduler2() {
         logger.info("定时任务----2");
     }
@@ -60,6 +59,6 @@ public class SchedulerService {
     @Scheduled(cron = "0/10 * * * * ?")
     public void scheduler3() {
         logger.info("定时任务----3");
-    }
+    }*/
 
 }

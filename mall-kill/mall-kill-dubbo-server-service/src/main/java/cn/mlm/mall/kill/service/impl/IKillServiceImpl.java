@@ -14,6 +14,7 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +38,7 @@ public class IKillServiceImpl extends BaseServiceImpl<ItemKill> implements IKill
     @Autowired
     private ItemKillMapper itemKillMapper;
 
-    private SnowFlake snowFlake = new SnowFlake(2,3);
+    private SnowFlake snowFlake = new SnowFlake(2, 3);
 
     /**
      * 商品秒杀核心业务逻辑的处理
@@ -78,7 +79,7 @@ public class IKillServiceImpl extends BaseServiceImpl<ItemKill> implements IKill
     private void commonRecordKillSuccessInfo(ItemKill itemKill, Integer userId) {
         //TODO:记录抢购成功后生成的秒杀订单记录
         ItemKillSuccess entity = new ItemKillSuccess();
-        String orderNo=String.valueOf(snowFlake.nextId());
+        String orderNo = String.valueOf(snowFlake.nextId());
         //雪花算法
         entity.setCode(orderNo);
         //entity.setCode(RandomUtil.generateOrderCode()); //当前时间加随机数
@@ -93,12 +94,48 @@ public class IKillServiceImpl extends BaseServiceImpl<ItemKill> implements IKill
             if (res > 0) {
                 //TODO:进行异步邮件消息的通知=rabbitmq+mail
                 rabbitSenderService.sendKillSuccessEmailMsg(orderNo);
-
                 //TODO:入死信队列，用于 “失效” 超过指定的TTL时间时仍然未支付的订单
-                //rabbitSenderService.sendKillSuccessOrderExpireMsg(orderNo);
+                rabbitSenderService.sendKillSuccessOrderExpireMsg(orderNo);
             }
         }
     }
 
+    /**
+     * 商品秒杀核心业务逻辑的处理-mysql的优化
+     *
+     * @param killId
+     * @param userId
+     * @return
+     */
+    @Override
+    public Boolean killItemV2(Integer killId, Integer userId) {
+        Boolean result = false;
+
+        //TODO:判断当前用户是否已经抢购过当前商品
+        if (itemKillSuccessMapper.countByKillUserId(killId, userId) <= 0) {
+            //TODO:A.查询待秒杀商品详情
+            ItemKill itemKill = itemKillMapper.selectByIdV2(killId);
+
+            //TODO:判断是否可以被秒杀canKill=1?
+            if (itemKill != null && 1 == itemKill.getCanKill() && itemKill.getTotal() > 0) {
+                //TODO:B.扣减库存-减一
+                int res = itemKillMapper.updateKillItemV2(killId);
+
+                //TODO:扣减是否成功?是-生成秒杀成功的订单，同时通知用户秒杀成功的消息
+                if (res > 0) {
+                    commonRecordKillSuccessInfo(itemKill, userId);
+                    result = true;
+                }
+            }
+        } else {
+            throw new RuntimeException("您已经抢购过该商品了!");
+        }
+        return result;
+    }
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+   
 
 }

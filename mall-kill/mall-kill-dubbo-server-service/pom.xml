@@ -12,16 +12,10 @@
     <artifactId>mall-kill-dubbo-server-service</artifactId>
     <packaging>jar</packaging>
     <dependencies>
-    <!--    <dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
-            <exclusions>
-                <exclusion>&lt;!&ndash;排除jar依赖&ndash;&gt;
-                    <groupId>org.springframework.data</groupId>
-                    <artifactId>spring-data-commons</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>-->
+        </dependency>
         <dependency>
             <groupId>cn.mlm.mall</groupId>
             <artifactId>mall-kill-dubbo-server-interface</artifactId>

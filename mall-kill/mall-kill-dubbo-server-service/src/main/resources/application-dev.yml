@@ -83,7 +83,7 @@ mq:
               exchange: ${mq.env}.kill.item.success.kill.dead.prod.exchange
               routing: #路由
                 key: ${mq.env}.kill.item.success.kill.dead.prod.routing.key
-          expire: 30000 #订单超时时间 1800000ms
+          expire: 1800000 #订单超时时间 1800000ms
 #定时任务时间策略配置
 scheduler:
   expire:

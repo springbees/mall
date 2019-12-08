@@ -19,4 +19,14 @@ public class IKillService {
     public Boolean killItem(Integer killId, Integer userId) {
         return apiIKillService.killItem(killId, userId);
     }
+
+    /**
+     * 数据库优化接口
+     * @param killId
+     * @param userId
+     * @return
+     */
+    public Boolean killItemV2(Integer killId, Integer userId) {
+        return apiIKillService.killItemV2(killId, userId);
+    }
 }
