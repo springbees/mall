@@ -88,17 +88,33 @@ public class KillController {
     @RequestMapping(value = "/jmeterKillExecute", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public CommonResult killExecuteJmeter(@RequestBody @Validated KillDto dto, BindingResult result, HttpSession session) {
-        log.info("请求参数- {}", dto);
         if (result.hasErrors() || dto.getKillId() <= 0) {
             //参数校验失败
             return CommonResult.failed(VALIDATE_FAILED);
         }
         try {
-            //传入用户秒杀商品ID和用户ID
-            Boolean res = killService.killItemV2(dto.getKillId(), dto.getUserId());
+            //不加分布式锁的前提
+            /*Boolean res=killService.killItemV2(dto.getKillId(),dto.getUserId());
+            if (!res){
+                return  CommonResult.failed("不加分布式锁-哈哈~商品已抢购完毕或者不在抢购时间段哦!");
+            }*/
+
+            //基于Redis的分布式锁进行控制
+            /*Boolean res=killService.killItemV3(dto.getKillId(),dto.getUserId());
+            if (!res){
+                return  CommonResult.failed("基于Redis的分布式锁进行控制-哈哈~商品已抢购完毕或者不在抢购时间段哦!");
+            }*/
+
+            //基于Redisson的分布式锁进行控制
+            /*Boolean res=killService.killItemV4(dto.getKillId(),dto.getUserId());
+            if (!res){
+                 return  CommonResult.failed("基于Redisson的分布式锁进行控制-哈哈~商品已抢购完毕或者不在抢购时间段哦!");
+            }*/
+
+            //基于ZooKeeper的分布式锁进行控制
+            Boolean res = killService.killItemV5(dto.getKillId(), dto.getUserId());
             if (!res) {
-                //抢购失败
-                return CommonResult.failed(KILL_FAILED);
+                return CommonResult.failed("基于ZooKeeper的分布式锁进行控制-哈哈~商品已抢购完毕或者不在抢购时间段哦!");
             }
         } catch (Exception e) {
             return CommonResult.failed(e.getMessage());

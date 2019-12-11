@@ -8,4 +8,10 @@ public interface ApiIKillService {
     Boolean killItem(Integer killId, Integer userId);
 
     Boolean killItemV2(Integer killId, Integer userId);
+
+    Boolean killItemV3(Integer killId, Integer userId);
+
+    Boolean killItemV4(Integer killId, Integer userId) throws Exception;
+
+    Boolean killItemV5(Integer killId, Integer userId) throws Exception;
 }

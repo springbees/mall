@@ -11,6 +11,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>mall-kill-api</artifactId>
+    <properties>
+        <shiro.version>1.4.1</shiro.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>cn.mlm.mall</groupId>
@@ -69,6 +72,33 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
+
+
+        <!--shiro权限控制-->
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-ehcache</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-core</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-web</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>

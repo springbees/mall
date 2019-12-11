@@ -22,11 +22,44 @@ public class IKillService {
 
     /**
      * 数据库优化接口
+     *
      * @param killId
      * @param userId
      * @return
      */
     public Boolean killItemV2(Integer killId, Integer userId) {
         return apiIKillService.killItemV2(killId, userId);
+    }
+
+    /**
+     * redis分布式锁
+     *
+     * @param killId
+     * @param userId
+     * @return
+     */
+    public Boolean killItemV3(Integer killId, Integer userId) {
+        return apiIKillService.killItemV3(killId, userId);
+    }
+
+    /**
+     * Redisson分布式锁
+     *
+     * @param killId
+     * @param userId
+     * @return
+     */
+    public Boolean killItemV4(Integer killId, Integer userId) throws Exception {
+        return apiIKillService.killItemV4(killId, userId);
+    }
+    /**
+     * 基于Zookeeper分布式锁
+     *
+     * @param killId
+     * @param userId
+     * @return
+     */
+    public Boolean killItemV5(Integer killId, Integer userId) throws Exception {
+        return apiIKillService.killItemV5(killId, userId);
     }
 }

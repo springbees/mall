@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
- * 用户信息表 前端控制器 模板
+ * 用户登入控制器
  * </p>
  *
  * @author jacklin
@@ -24,9 +24,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/get", method = RequestMethod.GET)
-    public User index(@RequestParam(value = "id", defaultValue = "10") int id) {
-        return userService.selectById(id);
-
+    @RequestMapping(value = {"/to/login", "/unauthorized"})
+    public String index() {
+        return "login";
     }
 }

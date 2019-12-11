@@ -38,10 +38,11 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
 
-#redis配置
+#redission配置
 redis:
   config:
     host: redis://192.168.254.126:6379
+#    password:
 
 dubbo:
   application:            #应用配置，用于配置当前应用信息，不管该应用是提供者还是消费者。
@@ -58,7 +59,10 @@ dubbo:
     version: 1.0.1 #配置Dubbo版本
 mybatis-plus:
   mapper-locations: classpath:mybatis/mapper/*Mapper.xml
-
+#zookeeper分布式锁
+zk:
+  host: 192.168.254.126:2181
+  namespace: mall-kill
 
 #配置Redis
 mq:
