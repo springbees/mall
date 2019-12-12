@@ -61,5 +61,21 @@ mall项目是电商项目中其中的一个秒杀业务模块，基于SpringBoot
 
 ![秒杀业务流程图](./doc/images/秒杀业务流程.jpg)
 
+### 环境需求安装
 
+#### docker 安装Redis
+
+> docker run --name redis -p 6379:6379-v /opt/docker/redis/data:/data -d redis:5.0.2 redis-server --appendonly yes
+
+#### docker 安装Zookeeper
+
+> docker run -d -p 2181:2181 -v /opt/docker/zookeeper/data/:/data/ --name=zookeeper --privileged zookeeper 
+
+#### docker 安装 RabbitMQ
+
+> docker run -d --name rabbitmq3.7.7 -p 5672:5672 -p 15672:15672 -v /mq/data:/var/lib/rabbitmq --hostname myRabbit -e RABBITMQ_DEFAULT_VHOST=my_vhost  -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin 2888deb59dfc
+
+**备注：项目有任何问题可以和作者交流或者咨询作者**
+
+作者联系方式 QQ: **1030004653**
 
