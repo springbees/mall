@@ -99,11 +99,6 @@ mail:
   send:
     from: 1030004653@qq.com
 
-#Shiro配置
-shiro:
-  encrypt:
-    password:
-      salt: 11299c42bf954c0abb373efbae3f6b26
 logging:
   level:
     cn.mlm.mall.kill.mapper: debug
