@@ -76,7 +76,7 @@ var car = {
               getSubTotal(this)
               break;
             case 'dele-btn':
-              layer.confirm('你确定要删除吗',{
+              layer.confirm('你确定要取消订单吗',{
                 yes:function(index,layero){
                   layer.close(index)
                   that.parentNode.removeChild(that);
@@ -89,7 +89,7 @@ var car = {
       }
       batchdeletion.onclick = function(){
         if(SelectedPieces.innerHTML != 0){
-          layer.confirm('你确定要删除吗',{
+          layer.confirm('你确定要取消订单吗',{
             yes:function(index,layero){
               layer.close(index)
               for(var i = 0;i < uls.length;i++){

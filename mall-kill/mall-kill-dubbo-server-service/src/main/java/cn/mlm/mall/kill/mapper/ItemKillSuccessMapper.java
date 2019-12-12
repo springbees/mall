@@ -26,4 +26,7 @@ public interface ItemKillSuccessMapper extends BaseMapper<ItemKillSuccess> {
 
     List<ItemKillSuccess> selectExpireOrders();
 
+    KillSuccessUserInfo selectByCode(@Param("orderNo") String orderNo);
+
+    int updateByOderCode(@Param(("oderCode")) String oderCode);
 }

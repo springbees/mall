@@ -3,18 +3,18 @@ package cn.mlm.mall.kill.controller;
 import cn.mlm.mall.common.CommonResult;
 import cn.mlm.mall.kill.dto.KillDto;
 import cn.mlm.mall.kill.pojo.ItemKill;
+import cn.mlm.mall.kill.pojo.KillSuccessUserInfo;
 import cn.mlm.mall.kill.service.IKillService;
+import com.alibaba.dubbo.common.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -34,6 +34,7 @@ public class KillController {
 
     @Autowired
     private IKillService killService;
+
 
     /**
      * 订单秒杀方法
@@ -61,6 +62,39 @@ public class KillController {
             return CommonResult.failed(e.getMessage());
         }
         return CommonResult.success(null, "抢购成功！");
+    }
+
+
+    /**
+     * 秒杀成功查看订单详情
+     *
+     * @param orderNo 用户秒杀成功的订单号
+     * @return
+     */
+    @RequestMapping(value = "/kill/record/detail/{orderNo}", method = RequestMethod.GET)
+    public String recordDetail(@PathVariable String orderNo, ModelMap modelMap) {
+        if (StringUtils.isBlank(orderNo)) {
+            return "fail";
+        }
+        KillSuccessUserInfo info = killService.selectByCode(orderNo);
+        if (info == null) {
+            return "fail";
+        }
+        modelMap.put("info", info);
+        return "order";
+    }
+
+    @RequestMapping(value = "/record/cancelOrder/{oderCode}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult cancelOrder(@PathVariable String oderCode) {
+        if (StringUtils.isBlank(oderCode)) {
+            return CommonResult.failed("取消订单失败");
+        }
+        int item = killService.updateByOderCode(oderCode);
+        if (item < 0) {
+            return CommonResult.failed("取消订单失败");
+        }
+        return CommonResult.success("取消成功");
     }
 
     /**

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}" href="../static/css/main.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/layui/css/layui.css}" href="../layui/css/layui.css">
+    <script type="text/javascript" th:src="@{/layui/layui.js}" src="../layui/layui.js"></script>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+</head>
+<body>
+
+<div class="site-nav-bg">
+    <div class="site-nav w1200">
+        <p class="sn-back-home">
+            <i class="layui-icon layui-icon-home"></i>
+            <a href="#">首页</a>
+        </p>
+        <div class="sn-quick-menu">
+            <div class="login"><a href="login.html">登录</a></div>
+            <div class="sp-cart"><a href="order.html">购物车</a><span>2</span></div>
+        </div>
+    </div>
+</div>
+
+
+<div class="header">
+    <div class="headerLayout w1200">
+        <div class="headerCon">
+            <h1 class="mallLogo">
+                <a href="#" title="母婴商城">
+                    <img th:src="@{/img/logo.png}" src="../res/static/img/logo.png">
+                </a>
+            </h1>
+            <div class="mallSearch">
+                <form action="" class="layui-form" novalidate>
+                    <input type="text" name="title" required lay-verify="required" autocomplete="off"
+                           class="layui-input" placeholder="请输入需要的商品">
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">
+                        <i class="layui-icon layui-icon-search"></i>
+                    </button>
+                    <input type="hidden" name="" value="">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="content content-nav-base shopcart-content">
+    <div class="main-nav">
+        <div class="inner-cont0">
+            <div class="inner-cont1 w1200">
+                <div class="inner-cont2">
+                    <a href="commodity.html" class="active">所有商品</a>
+                    <a href="buytoday.html">今日团购</a>
+                    <a href="information.html">母婴资讯</a>
+                    <a href="about.html">关于我们</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="banner-bg w1200">
+        <h3>夏季清仓</h3>
+        <p>宝宝被子、宝宝衣服3折起</p>
+    </div>
+    <div class="cart w1200">
+        <div class="cart-table-th">
+            <div class="th th-chk">
+                <div class="select-all">
+                    <label>&nbsp;&nbsp;订单编号</label>
+                </div>
+            </div>
+            <div class="th th-item">
+                <div class="th-inner">
+                    商品
+                </div>
+            </div>
+            <div class="th th-price">
+                <div class="th-inner">
+                    单价
+                </div>
+            </div>
+            <div class="th th-amount">
+                <div class="th-inner">
+                    数量
+                </div>
+            </div>
+            <div class="th th-sum">
+                <div class="th-inner">
+                    支付状态
+                </div>
+            </div>
+            <div class="th th-op">
+                <div class="th-inner">
+                    操作
+                </div>
+            </div>
+            <div class="OrderList">
+                <input id="oderCode" type="hidden" th:value="${info.code}">
+                <div class="order-content" id="list-cont">
+                    <ul class="item-content layui-clear" th:each="info : ${info}">
+                        <li class="th th-chk">
+                            <div class="select-all">
+                                <div class="cart-checkbox">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="th th-item">
+                            <div class="item-cont">
+                                <a href="javascript:;"><img
+                                        th:src="${(info.imgUrl != null && !#strings.isEmpty(info.imgUrl)) ? info.imgUrl : '/img/s_img2.jpg'}"
+                                        src="../res/static/img/paging_img1.jpg" alt=""></a>
+                                <div class="text">
+                                    <div class="title" th:text="${info.itemName}"></div>
+                                    <p><span>清仓大甩卖</span> <span>130</span>cm</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="th th-sum">
+                            <span class="sum" th:text="${info.killPrice}+元"></span>
+                        </li>
+                        <li class="th th-amount">
+                            <div class="box-btn layui-clear">
+                                <input class="Quantity-input" type="" name="" value="1" disabled="disabled">
+                            </div>
+                        </li>
+                        <li class="th th-sum" th:if="${info.status} eq '0'">
+                            <span class="sum">未支付</span>
+                        </li>
+                        <li class="th th-sum" th:if="${info.status} eq '-1'">
+                            <span class="sum">已经取消</span>
+                        </li>
+                        <li class="th th-sum" th:if="${info.status} eq '1'">
+                            <span class="sum">已支付</span>
+                        </li>
+                        <li class="th th-op">
+                            <button class="layui-btn layui-btn-xs layui-btn-normal"
+                                    onclick="javascript:alert('支付待实现');">支付订单
+                            </button>
+                            <button class=" layui-btn layui-btn-xs layui-btn-danger" onclick="cancelOrder()">取消订单
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/plugins/jquery.js}"></script>
+    <script type="text/javascript">
+        function cancelOrder() {
+            let value = document.getElementById("oderCode").value;
+            $.ajax({
+                type: "GET",
+                url: "/kill/record/cancelOrder/"+value,
+                success: function (res) {
+                    if (res.code) {
+                        layer.msg(res.data);
+                    }
+                },
+                error: function (message) {
+                    layer.msg(message);
+                    location.reload();
+                }
+            });
+        }
+
+        layui.config({
+            base: '/js/util/' //你存放新模块的目录，注意，不是layui的模块目录
+        }).use(['mm', 'jquery', 'element', 'car'], function () {
+            var mm = layui.mm, $ = layui.$, element = layui.element, car = layui.car;
+
+
+        });
+    </script>
+</body>
+</html>

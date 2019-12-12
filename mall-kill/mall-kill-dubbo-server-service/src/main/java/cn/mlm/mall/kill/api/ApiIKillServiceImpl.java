@@ -1,5 +1,6 @@
 package cn.mlm.mall.kill.api;
 
+import cn.mlm.mall.kill.pojo.KillSuccessUserInfo;
 import cn.mlm.mall.kill.service.IKillService;
 import com.alibaba.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,16 @@ public class ApiIKillServiceImpl implements ApiIKillService {
     @Override
     public Boolean killItemV5(Integer killId, Integer userId) throws Exception {
         return iKillService.KillItemV5(killId, userId);
+    }
+
+    @Override
+    public KillSuccessUserInfo selectByCode(String orderNo) {
+        return iKillService.selectByCode(orderNo);
+    }
+
+    @Override
+    public int updateByOderCode(String oderCode) {
+        return iKillService.updateByOderCode( oderCode);
     }
 
 }

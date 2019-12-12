@@ -8,6 +8,7 @@ import cn.mlm.mall.kill.mapper.ItemKillMapper;
 import cn.mlm.mall.kill.mapper.ItemKillSuccessMapper;
 import cn.mlm.mall.kill.pojo.ItemKill;
 import cn.mlm.mall.kill.pojo.ItemKillSuccess;
+import cn.mlm.mall.kill.pojo.KillSuccessUserInfo;
 import cn.mlm.mall.kill.service.IKillService;
 import cn.mlm.mall.kill.service.RabbitSenderService;
 import org.apache.curator.framework.CuratorFramework;
@@ -276,4 +277,15 @@ public class IKillServiceImpl extends BaseServiceImpl<ItemKill> implements IKill
         }
         return result;
     }
+
+    @Override
+    public int updateByOderCode(String oderCode) {
+        return itemKillSuccessMapper.updateByOderCode(oderCode);
+    }
+
+    @Override
+    public KillSuccessUserInfo selectByCode(String orderNo) {
+        return itemKillSuccessMapper.selectByCode(orderNo);
+    }
+
 }
