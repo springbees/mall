@@ -168,7 +168,6 @@ public class IKillServiceImpl extends BaseServiceImpl<ItemKill> implements IKill
                     int res = itemKillMapper.updateKillItemV2(killId);
                     if (res > 0) {
                         commonRecordKillSuccessInfo(itemKill, userId);
-
                         result = true;
                     }
                 }

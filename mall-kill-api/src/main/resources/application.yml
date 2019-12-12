@@ -25,4 +25,8 @@ dubbo:
     client: zkclient
   service:
     version: 1.0.1 #配置Dubbo版本
-
+#密码加盐
+shiro:
+  encrypt:
+    password:
+      salt: 11299c42bf954c0abb373efbae3f6b26

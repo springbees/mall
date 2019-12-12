@@ -22,6 +22,7 @@ import static cn.mlm.mall.common.ResultCode.KILL_FAILED;
 import static cn.mlm.mall.common.ResultCode.VALIDATE_FAILED;
 
 /**
+ * @author linSir
  * @Class class file creation author：jakclinsir
  * @DATE 2019/12/3 20:11
  * 秒杀controller
@@ -47,11 +48,14 @@ public class KillController {
             return CommonResult.failed(VALIDATE_FAILED);
         }
         try {
-            //传入用户秒杀商品ID和用户ID
-            Boolean res = killService.killItem(dto.getKillId(), dto.getUserId());
+            Integer uId = (Integer) session.getAttribute("uid");
+            if (uId == null) {
+                return CommonResult.failed();
+            }
+            //基于Redisson的分布式锁进行控制 传入用户秒杀商品ID和用户ID
+            Boolean res = killService.killItemV4(dto.getKillId(), uId);
             if (!res) {
-                //抢购失败
-                return CommonResult.failed(KILL_FAILED);
+                return CommonResult.failed("基于Redisson的分布式锁进行控制-哈哈~商品已抢购完毕或者不在抢购时间段哦!");
             }
         } catch (Exception e) {
             return CommonResult.failed(e.getMessage());

@@ -18,4 +18,23 @@ public class UserService {
     public User selectById(int id) {
         return apiUserService.selectById(id);
     }
+
+    /**
+     * 查询用户实现
+     * @param username
+     * @return
+     */
+    public User selectByUserName(String username) {
+        return apiUserService.selectByUserName(username);
+    }
+
+    /**
+     * 用户登入服务实现
+     * @param username
+     * @param password
+     * @return
+     */
+    public User selectByUserNameAndPassword(String username, String password) {
+        return apiUserService.selectByUserNameAndPassword( username, password);
+    }
 }

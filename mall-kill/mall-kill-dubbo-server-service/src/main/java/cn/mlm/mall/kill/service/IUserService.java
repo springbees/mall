@@ -12,4 +12,21 @@ import cn.mlm.mall.kill.pojo.User;
  */
 public interface IUserService {
     User selectById(int id);
+
+    /**
+     * 根据帐号密码查询对象
+     *
+     * @param username
+     * @param password
+     * @return
+     */
+    User selectByUserNameAndPassword(String username, String password);
+
+    /**
+     * 根据帐号查询对象
+     *
+     * @param username
+     * @return
+     */
+    User selectByUserName(String username);
 }

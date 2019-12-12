@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * @Class class file creation author：jakclinsir
- * @DATE 2019/12/2 18:01
+ *
+ * @author linSir
  */
 @Controller
 public class IndexController {

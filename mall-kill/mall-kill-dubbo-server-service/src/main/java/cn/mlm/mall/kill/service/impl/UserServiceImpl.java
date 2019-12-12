@@ -4,6 +4,8 @@ import cn.mlm.mall.common.base.BaseServiceImpl;
 import cn.mlm.mall.kill.mapper.UserMapper;
 import cn.mlm.mall.kill.pojo.User;
 import cn.mlm.mall.kill.service.IUserService;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,8 +27,21 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements IUserServi
 
     @Override
     public User selectById(int id) {
-        System.out.println("id ===================== " + id);
-        System.out.println(userMapper.selectById(id));
         return userMapper.selectById(id);
+    }
+
+    @Override
+    public User selectByUserNameAndPassword(String username, String password) {
+        QueryWrapper query = new QueryWrapper();
+        query.eq("user_name",username);
+        query.eq("password",username);
+        return userMapper.selectOne(query);
+    }
+
+    @Override
+    public User selectByUserName(String username) {
+        QueryWrapper query = new QueryWrapper();
+        query.eq("user_name",username);
+        return userMapper.selectOne(query);
     }
 }
