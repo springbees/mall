@@ -5,15 +5,15 @@ mall项目是电商项目中其中的一个秒杀业务模块，基于SpringBoot
 
 **项目首页**
 
-![](./doc/images/首页.png)
+![项目首页图](./doc/images/首页.png)
 
 **商品秒杀**
 
-![](./doc/images/商品秒杀.png)
+![商品秒杀图](./doc/images/商品秒杀.png)
 
 **商城登入授权**
 
-![](./doc/images/登入授权.png)
+![登入授权图](./doc/images/登入授权.png)
 
 ### 组织结构
 
@@ -53,13 +53,13 @@ mall项目是电商项目中其中的一个秒杀业务模块，基于SpringBoot
 
 ### 秒杀系统要点分析图
 
-![](./doc/images/互联网商城秒杀系统.jpg)
+![互联网商城秒杀系统要点描述](./doc/images/互联网商城秒杀系统.jpg)
 
 
 
 ### 秒杀业务流程图
 
-![](./doc/images/秒杀业务流程.jpg)
+![秒杀业务流程图](./doc/images/秒杀业务流程.jpg)
 
 
 
