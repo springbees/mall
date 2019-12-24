@@ -155,10 +155,14 @@
             let value = document.getElementById("oderCode").value;
             $.ajax({
                 type: "GET",
-                url: "/kill/record/cancelOrder/"+value,
+                url: "/kill/record/cancelOrder/" + value,
                 success: function (res) {
-                    if (res.code) {
-                        layer.msg(res.data);
+                    if (res.code==200) {
+                        layer.msg(res.data, function () {
+                            location.reload();
+                        });
+                    } else if (res.code==500) {
+                        layer.msg(res.message)
                     }
                 },
                 error: function (message) {

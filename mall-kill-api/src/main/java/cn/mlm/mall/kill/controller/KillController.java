@@ -91,7 +91,8 @@ public class KillController {
             return CommonResult.failed("取消订单失败");
         }
         int item = killService.updateByOderCode(oderCode);
-        if (item < 0) {
+        log.info("取消的订单操作结果:{}", item);
+        if (item <= 0) {
             return CommonResult.failed("取消订单失败");
         }
         return CommonResult.success("取消成功");

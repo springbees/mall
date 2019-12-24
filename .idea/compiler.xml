@@ -7,10 +7,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="mall-kill-dubbo-server-interface" />
-        <module name="mall-common" />
         <module name="mall-kill-dubbo-server-service" />
-        <module name="mall-kill-api" />
         <module name="mall-mbg" />
+        <module name="mall-kill-api" />
+        <module name="mall-common" />
       </profile>
     </annotationProcessing>
   </component>

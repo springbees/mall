@@ -61,6 +61,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/**", "anon");
         //需要登入授权访问的请求
         filterChainDefinitionMap.put("/kill/execute/*", "authc");
+        filterChainDefinitionMap.put("/kill/kill/*", "authc");
         filterChainDefinitionMap.put("/item/detail/*", "authc");
         filterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return filterFactoryBean;
